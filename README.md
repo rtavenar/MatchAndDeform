@@ -22,41 +22,6 @@ When citing this work, please use the following BibTeX entry:
 }
 ```
 
-## Problem statement
-
-Given two time series datasets $\textbf{X}$ and $\textbf{X}^{\prime}$, MAD is formally defined as:
-
-$\text{MAD}(\textbf{X}, \textbf{X}^{\prime}) =  \arg\min_{\gamma \in\Gamma(\textbf{w},\textbf{w}^{\prime}), \pi \in \mathcal{A}(T, T^{\prime})} \langle \textbf{L}(\textbf{X},\textbf{X}^{\prime}) \otimes \gamma, \pi \rangle  $
-$\text{MAD}(\textbf{X}, \textbf{X}^{\prime}) = \arg\min_{\gamma \in\Gamma(\textbf{w},\textbf{w}^{\prime})  \pi \in \mathcal{A}(T, T^{\prime})} \sum_{i,j} \sum_{s,t} d(x^i_s, x_t^{\prime j}) \pi_{s, t} \gamma_{ij}$
-
-Here, $\textbf{L}(\textbf{X},\textbf{X}^{\prime})$ is a 4-dimensional tensor whose elements are $L^{i,j}_{s,t}=d(x^i_s,x^{\prime j}_t)$, with $d : \mathbb{R}^q \times \mathbb{R}^q \rightarrow \mathbb{R}^+$ being a distance.
-$\otimes$ is the tensor-matrix multiplication. $\pi$ is a global DTW alignment between timestamps and $\gamma$ is a transport plan between samples from $\textbf{X}$ and $\textbf{X}^{\prime}$.
-
-The optimization problem in previous equation can be further extended to the case of distinct DTW mappings for each class $c$ in the source data. This results in the following optimization problem, coined $|\mathcal{C}|\text{-MAD}$:
-
-$$
- |\mathcal{C}|\text{-MAD}(\textbf{X}, \textbf{X}^\prime, \textbf{Y}) =
-      \arg\min_{\gamma \in \Gamma(\textbf{w},\textbf{w}^{\prime}),  \forall c, \pi^{(c)} \in \mathcal{A}(T, T^{\prime})} \sum_{i,j} \sum_{s,t} L^{i,j}_{s,t}
-      \pi^{(y^i)}_{s t} \gamma_{ij} \, .
-$$     
-
-In that case, $|\mathcal{C}|$ DTW alignments are involved, one for each class $c$. $\pi^{(y^i)}$ denotes the DTW matrix associated to the class $y^i$ of $x^i$.
-This more flexible formulation allows adapting to different temporal distortions that might occur across classes.
-
-When embedded into a deep neural network, MAD helps learning new representations of time series that both align the domains and maximizes the discriminative power of the network, allowing the model to reach state-of-the-art performances.
-
-We minimize the following overall loss function  over $\{\pi^{(c)}\}_c$, $\gamma$, $\Omega$ and $\theta$ :
-
-$$\mathcal{L}(\textbf{X}, \textbf{Y}, \textbf{X}^{\prime}) =
-\frac{1}{n} \sum_{i} \mathcal{L}_{s}(y^{i}, f_\theta(g_\Omega(\textbf{x}^{i}))) +
-\sum_{i, j} \gamma_{ij} \Big( \alpha \sum_{s, t} \pi_{s t}^{(y^i)}
-L\left(g_\Omega(\textbf{X}), g_\Omega(\textbf{X}^\prime)\right)^{i,j}_{s, t} + \beta \mathcal{L}_{t}(y^{i}, f_\theta(g_\Omega(\textbf{x}^{\prime j}))) \Big)$$
-
-
-where $\mathcal{L}_s$ and $\mathcal{L}_t$ are cross entropy losses, $\gamma$ (resp. $\{\pi^{(c)}\}_c$) is the transport plan (resp. the set of DTW paths) yielded by $|\mathcal{C}|\text{-MAD}$.
-
-In pratice, $\alpha = 0.1$ is the value that equalizes terms in this sum and we set $\beta = 0.01$, a tenth of $\alpha$.
-
 
 ## Installation:
 
