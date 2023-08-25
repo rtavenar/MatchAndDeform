@@ -67,7 +67,7 @@ for ix in range(len(pairs)):
         for cur_series, cur_labels, cur_alpha, label in zip([source_series, target_series],
                                                      [source_labels, target_labels],
                                                      [1., 0.4],
-                                                     ["Average source NDVI series", "Average target NDVI series"]):
+                                                     [f"Average {pairs[ix][0]} NDVI series", f"Average {pairs[ix][1]} NDVI series"]):
             cur_series = medfilt(cur_series[cur_labels == iy], (1, 5, 1))
             denominator = cur_series[:, :, 6] + cur_series[:, :, 2]
             numerator = cur_series[:, :, 6] - cur_series[:, :, 2]

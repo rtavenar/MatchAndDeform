@@ -2,6 +2,8 @@
 
 This repository provides code and datasets used in the "Match-And-Deform" paper.
 
+Link to the paper: <https://arxiv.org/abs/2308.12686>
+
 ## Paper abstract: 
 
 > While large volumes of unlabeled data are usually available, associated labels are often scarce. The unsupervised domain adaptation problem aims at exploiting labels from a source domain to classify data from a related, yet different, target domain.
